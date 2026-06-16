@@ -18,8 +18,9 @@ function greeting() {
 export default async function InicioPage() {
   const user = await getCurrentUser();
 
-  // Usuario nuevo sin rol → al onboarding para que configure su salón.
+  // Usuario nuevo sin rol → onboarding. Director → su panel.
   if (!user?.role) redirect("/onboarding");
+  if (user.role === "director") redirect("/dashboard");
 
   const groups = await getMyGroups();
   const firstName = user.fullName?.split(" ")[0] ?? "";
