@@ -1,0 +1,69 @@
+@import "tailwindcss";
+
+/* ============================================
+   AULA — Tokens de diseño (Tailwind v4 @theme)
+   Cambiar la marca = cambiar este bloque.
+   ============================================ */
+@theme {
+  /* Marca */
+  --color-indigo: #4254e0;
+  --color-indigo-dark: #2d3bae;
+  --color-indigo-mid: #7a88ee;
+  --color-indigo-soft: #eaecfc;
+
+  --color-gold: #f5a623;
+  --color-gold-soft: #fdf0d8;
+
+  --color-coral: #ff7a66;
+  --color-coral-soft: #ffe9e4;
+
+  --color-green: #16a971;
+  --color-green-soft: #def5ec;
+
+  --color-red: #e84343;
+  --color-red-soft: #fbe2e2;
+
+  --color-sky: #2ea8e0;
+  --color-sky-soft: #e0f2fb;
+
+  /* Neutros */
+  --color-ink: #1a2138;
+  --color-ink-soft: #4b5168;
+  --color-bg: #f4f5fa;
+  --color-surface: #ffffff;
+  --color-border: #e3e5f0;
+  --color-muted: #9aa0b4;
+
+  /* Tipografía */
+  --font-display: var(--font-sora), ui-sans-serif, sans-serif;
+  --font-body: var(--font-inter), ui-sans-serif, sans-serif;
+
+  /* Radios */
+  --radius-btn: 10px;
+  --radius-card: 16px;
+  --radius-pill: 9999px;
+
+  /* Sombras */
+  --shadow-card: 0 1px 3px rgba(26, 33, 56, 0.06), 0 1px 2px rgba(26, 33, 56, 0.04);
+  --shadow-float: 0 8px 24px rgba(26, 33, 56, 0.12);
+}
+
+* {
+  border-color: var(--color-border);
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, .font-display {
+  font-family: var(--font-display);
+}
+
+/* Scroll suave en móvil, sin rebote raro */
+html {
+  -webkit-text-size-adjust: 100%;
+}
