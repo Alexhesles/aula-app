@@ -12,6 +12,7 @@ export interface LessonPlan {
 export interface PlanItem {
   id: string;
   week: number | null;
+  sessions: number;
   content: string;
   expected_learning: string | null;
   status: "pendiente" | "en_curso" | "completado";
@@ -43,16 +44,28 @@ export async function getPlan(planId: string) {
   const supabase = await createClient();
   const { data: plan } = await supabase
     .from("lesson_plans")
-    .select("id, title, groups(name), subjects(name)")
+    .select("id, title, group_id, groups(id, name, grade), subjects(name)")
     .eq("id", planId)
     .single();
   if (!plan) return null;
 
   const { data: items } = await supabase
     .from("plan_items")
-    .select("id, week, content, expected_learning, status, position")
+    .select("id, week, sessions, content, expected_learning, status, position")
     .eq("lesson_plan_id", planId)
     .order("position", { ascending: true });
 
   return { plan: plan as any, items: (items ?? []) as PlanItem[] };
+}
+
+export async function getCurriculumOptions(grade: string | null) {
+  if (!grade) return [];
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("curriculum_contents")
+    .select("id, subject, content")
+    .eq("grade", grade)
+    .order("subject", { ascending: true })
+    .order("position", { ascending: true });
+  return ((data as any[]) ?? []).map((c) => ({ id: c.id, label: `${c.subject} — ${c.content}` }));
 }

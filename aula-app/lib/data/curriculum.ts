@@ -17,7 +17,7 @@ export async function getCurriculumGroups() {
 
 export interface SubjectBlock {
   subject: string;
-  contents: { id: string; content: string; block: number | null; covered: boolean }[];
+  contents: { id: string; content: string; detail: string | null; campo: string | null; block: number | null; covered: boolean }[];
   done: number;
   total: number;
 }
@@ -38,7 +38,7 @@ export async function getCurriculum(groupId: string) {
 
   const { data: contents } = await supabase
     .from("curriculum_contents")
-    .select("id, subject, content, block, position")
+    .select("id, subject, campo, content, detail, block, position")
     .eq("grade", group.grade)
     .order("subject", { ascending: true })
     .order("position", { ascending: true });
@@ -59,7 +59,7 @@ export async function getCurriculum(groupId: string) {
     }
     const sb = bySubject.get(c.subject)!;
     const covered = coveredSet.has(c.id);
-    sb.contents.push({ id: c.id, content: c.content, block: c.block, covered });
+    sb.contents.push({ id: c.id, content: c.content, detail: c.detail, campo: c.campo, block: c.block, covered });
     sb.total += 1;
     if (covered) sb.done += 1;
   }
