@@ -16,6 +16,16 @@ export default async function PlanPage() {
         <Link href="/plan/nuevo"><Button size="sm">+ Nuevo</Button></Link>
       </div>
 
+      <Link href="/curriculo">
+        <Card className="mb-5 flex items-center justify-between bg-indigo-soft/50 transition-colors hover:border-indigo-mid">
+          <div>
+            <p className="font-display font-bold text-ink">Avance curricular SEP</p>
+            <p className="text-sm text-ink-soft">Marca los contenidos que ya abordaste</p>
+          </div>
+          <span className="text-indigo">→</span>
+        </Card>
+      </Link>
+
       {plans.length === 0 ? (
         <EmptyState
           title="Sin planes aún"

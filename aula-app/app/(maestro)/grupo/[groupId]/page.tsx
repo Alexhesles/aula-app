@@ -26,7 +26,7 @@ export default async function GrupoPage({
         </p>
       </header>
 
-      <ManageClient groupId={groupId} students={students} />
+      <ManageClient groupId={groupId} students={students} grade={group.grade} />
 
       <Link
         href={`/asistencia/${groupId}`}
