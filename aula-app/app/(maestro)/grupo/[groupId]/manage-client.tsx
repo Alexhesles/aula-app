@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
@@ -133,7 +134,7 @@ export function ManageClient({
           {students.map((s, i) => (
             <li key={s.id} className="flex items-center gap-3 px-4 py-3">
               <span className="w-6 text-sm text-muted">{i + 1}</span>
-              <span className="flex-1 truncate text-ink">{s.full_name}</span>
+              <Link href={`/alumno/${s.id}`} className="flex-1 truncate text-ink hover:text-indigo hover:underline">{s.full_name}</Link>
               {showCodes ? (
                 <span className="rounded-pill bg-bg px-2 py-0.5 font-mono text-xs font-semibold tracking-wider text-indigo-dark">
                   {s.access_code ?? "—"}

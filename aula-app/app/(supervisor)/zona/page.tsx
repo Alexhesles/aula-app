@@ -1,6 +1,8 @@
 import { getZoneOverview } from "@/lib/data/supervisor";
 import { getCurrentUser } from "@/lib/auth/get-user";
+import Link from "next/link";
 import { Card } from "@/components/ui/card";
+import { SepUpcoming } from "@/components/shared/sep-upcoming";
 
 export const metadata = { title: "Zona escolar" };
 
@@ -49,7 +51,7 @@ export default async function ZonaPage() {
       ) : (
         <div className="space-y-3">
           {schools.map((s) => (
-            <Card key={s.schoolId}>
+            <Link key={s.schoolId} href={`/escuela-zona/${s.schoolId}`}><Card hover>
               <div className="flex items-center justify-between">
                 <p className="font-display font-bold text-ink">{s.schoolName}</p>
                 {s.incidentsWeek > 0 && (
@@ -63,10 +65,11 @@ export default async function ZonaPage() {
                 <span>{s.students} alumnos</span>
                 <span>{s.attendanceToday} asistencias hoy</span>
               </div>
-            </Card>
+            </Card></Link>
           ))}
         </div>
       )}
+    <div className="mt-8"><SepUpcoming /></div>
     </main>
   );
 }

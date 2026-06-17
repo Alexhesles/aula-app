@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth/get-user";
 import { getUnreadCount } from "@/lib/data/notifications";
+import { isFounder } from "@/lib/auth/dev";
 import { NotificationBell } from "@/components/shared/notification-bell";
 import { signOut } from "@/lib/auth/actions";
 
@@ -15,6 +16,7 @@ export default async function SupervisorLayout({ children }: { children: React.R
   if (!user) redirect("/login");
   if (user.role !== "supervisor") redirect("/inicio");
   const unread = await getUnreadCount();
+  const founder = await isFounder(user.email);
 
   return (
     <div className="min-h-dvh bg-ink text-white md:flex">
@@ -35,6 +37,7 @@ export default async function SupervisorLayout({ children }: { children: React.R
         </nav>
         <div className="mt-auto border-t border-white/10 pt-4">
           <p className="px-1 text-sm font-semibold text-white/90">{user.fullName ?? "Supervisor"}</p>
+          {founder && <Link href="/cambiar" className="mt-1 block text-sm text-indigo-mid hover:text-white">🧪 Cambiar perfil</Link>}
           <form action={signOut}><button className="mt-1 text-sm text-white/50 hover:text-white">Cerrar sesión</button></form>
         </div>
       </aside>

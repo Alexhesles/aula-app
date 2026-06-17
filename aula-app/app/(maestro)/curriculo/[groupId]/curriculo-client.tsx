@@ -103,8 +103,9 @@ export function CurriculoClient({
                   )}
                 </span>
                 <span className={`text-sm ${c.covered ? "text-ink" : "text-ink-soft"}`}>
-                  {c.block ? <span className="text-xs text-muted">T{c.block} · </span> : null}
+                  {c.campo ? <span className="mb-0.5 block text-[11px] font-semibold uppercase tracking-wide text-indigo/70">{c.campo}</span> : null}
                   {c.content}
+                  {c.detail ? <span className="mt-1 block text-xs text-muted">{c.detail}</span> : null}
                 </span>
               </Card>
             ))}

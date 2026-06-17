@@ -2,12 +2,15 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth/get-user";
 import { getUnreadCount } from "@/lib/data/notifications";
+import { isFounder } from "@/lib/auth/dev";
 import { NotificationBell } from "@/components/shared/notification-bell";
 import { signOut } from "@/lib/auth/actions";
 
 const NAV = [
   { href: "/dashboard", label: "Resumen" },
   { href: "/calendario", label: "Calendario" },
+  { href: "/anuncios", label: "Anuncios" },
+  { href: "/solicitudes", label: "Solicitudes" },
 ];
 
 export default async function DirectorLayout({ children }: { children: React.ReactNode }) {
@@ -15,6 +18,7 @@ export default async function DirectorLayout({ children }: { children: React.Rea
   if (!user) redirect("/login");
   if (user.role !== "director") redirect("/inicio");
   const unread = await getUnreadCount();
+  const founder = await isFounder(user.email);
 
   return (
     <div className="min-h-dvh bg-ink text-white md:flex">

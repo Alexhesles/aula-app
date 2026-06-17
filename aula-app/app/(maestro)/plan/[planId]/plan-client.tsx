@@ -25,16 +25,20 @@ export function PlanClient({
   title,
   groupName,
   initialItems,
+  options,
 }: {
   planId: string;
   title: string | null;
   groupName: string | null;
   initialItems: PlanItem[];
+  options: { id: string; label: string }[];
 }) {
   const router = useRouter();
   const [items, setItems] = useState(initialItems);
   const [content, setContent] = useState("");
   const [week, setWeek] = useState("");
+  const [sessions, setSessions] = useState("1");
+  const [contentId, setContentId] = useState("");
   const [pending, startTransition] = useTransition();
 
   function addItem() {
@@ -47,14 +51,18 @@ export function PlanClient({
           lesson_plan_id: planId,
           content: content.trim(),
           week: week ? parseInt(week) : null,
+          sessions: sessions ? parseInt(sessions) : 1,
+          content_id: contentId || null,
           position: items.length,
         })
-        .select("id, week, content, expected_learning, status, position")
+        .select("id, week, sessions, content, expected_learning, status, position")
         .single();
       if (!error && data) {
         setItems((prev) => [...prev, data as PlanItem]);
         setContent("");
         setWeek("");
+        setSessions("1");
+        setContentId("");
       }
     });
   }
@@ -90,7 +98,7 @@ export function PlanClient({
           return (
             <Card key={item.id} className="flex items-center gap-3 p-4">
               <div className="flex-1">
-                {item.week != null && <span className="text-xs text-muted">Semana {item.week}</span>}
+                <span className="text-xs text-muted">{item.week != null ? `Semana ${item.week}` : ""}{item.sessions ? ` · ${item.sessions} ses.` : ""}</span>
                 <p className="text-sm text-ink">{item.content}</p>
               </div>
               <button
@@ -124,6 +132,23 @@ export function PlanClient({
             onChange={(e) => setContent(e.target.value)}
             className="h-11 flex-1 rounded-btn border border-border bg-surface px-3 text-ink placeholder:text-muted focus:border-indigo focus:outline-2 focus:outline-indigo"
           />
+        </div>
+        <div className="flex gap-2">
+          <label className="w-24">
+            <span className="mb-1 block text-xs text-ink-soft">Sesiones</span>
+            <input type="number" min="1" value={sessions} onChange={(e) => setSessions(e.target.value)}
+              className="h-11 w-full rounded-btn border border-border bg-surface px-3 text-ink" />
+          </label>
+          {options.length > 0 && (
+            <label className="flex-1">
+              <span className="mb-1 block text-xs text-ink-soft">Ligar a currículo SEP (opcional)</span>
+              <select value={contentId} onChange={(e) => setContentId(e.target.value)}
+                className="h-11 w-full rounded-btn border border-border bg-surface px-3 text-sm text-ink">
+                <option value="">Sin ligar</option>
+                {options.map((o) => <option key={o.id} value={o.id}>{o.label.slice(0, 70)}</option>)}
+              </select>
+            </label>
+          )}
         </div>
         <Button fullWidth disabled={!content.trim() || pending} onClick={addItem}>
           Agregar tema

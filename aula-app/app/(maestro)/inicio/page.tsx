@@ -4,6 +4,7 @@ import { getCurrentUser } from "@/lib/auth/get-user";
 import { getHomeGroups } from "@/lib/data/groups";
 import { Card } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
+import { SepUpcoming } from "@/components/shared/sep-upcoming";
 
 export const metadata = { title: "Inicio" };
 
@@ -122,6 +123,8 @@ export default async function InicioPage() {
           </div>
         )}
       </section>
+
+      <div className="mt-7"><SepUpcoming /></div>
 
       {/* Accesos rápidos */}
       <section className="mt-7">

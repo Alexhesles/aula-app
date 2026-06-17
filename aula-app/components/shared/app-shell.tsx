@@ -45,11 +45,12 @@ interface AppShellProps {
   user: { name: string; roleLabel: string; initial: string };
   nav: NavItem[];
   unread: number;
+  founder?: boolean;
   signOut: () => void;
   children: React.ReactNode;
 }
 
-export function AppShell({ user, nav, unread, signOut, children }: AppShellProps) {
+export function AppShell({ user, nav, unread, founder, signOut, children }: AppShellProps) {
   const pathname = usePathname();
   const isActive = (href: string) => pathname === href || pathname.startsWith(href + "/");
   const mobileNav = nav.filter((n) => n.mobile);
@@ -95,7 +96,12 @@ export function AppShell({ user, nav, unread, signOut, children }: AppShellProps
               <p className="text-xs text-muted">{user.roleLabel}</p>
             </div>
           </div>
-          <form action={signOut} className="mt-2">
+          {founder && (
+            <Link href="/cambiar" className="mt-2 block rounded-btn px-3 py-2 text-sm text-indigo transition-colors hover:bg-indigo-soft">
+              🧪 Cambiar perfil
+            </Link>
+          )}
+          <form action={signOut} className="mt-1">
             <button className="w-full rounded-btn px-3 py-2 text-left text-sm text-ink-soft transition-colors hover:bg-red-soft hover:text-red">
               Cerrar sesión
             </button>
