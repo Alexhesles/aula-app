@@ -50,3 +50,26 @@ export async function getGroup(groupId: string) {
     .single();
   return data;
 }
+
+export interface HomeGroup extends TeacherGroup {
+  studentCount: number;
+  attendanceTodayDone: boolean;
+}
+
+/** Grupos del maestro enriquecidos para el inicio: conteo de alumnos y si ya pasó lista hoy. */
+export async function getHomeGroups(): Promise<HomeGroup[]> {
+  const supabase = await createClient();
+  const base = await getMyGroups();
+  const today = new Date().toLocaleDateString("en-CA");
+
+  const enriched = await Promise.all(
+    base.map(async (g) => {
+      const [{ count: students }, { count: att }] = await Promise.all([
+        supabase.from("students").select("id", { count: "exact", head: true }).eq("group_id", g.id),
+        supabase.from("attendance").select("id", { count: "exact", head: true }).eq("group_id", g.id).eq("date", today),
+      ]);
+      return { ...g, studentCount: students ?? 0, attendanceTodayDone: (att ?? 0) > 0 };
+    })
+  );
+  return enriched;
+}

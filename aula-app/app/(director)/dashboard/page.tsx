@@ -26,23 +26,22 @@ export default async function DashboardPage() {
   ];
 
   return (
-    <main>
-      <header className="mb-6">
-        <h1 className="font-display text-2xl font-extrabold text-ink">
+    <main className="animate-rise">
+      {/* Héroe con KPIs */}
+      <section className="glow-hero relative overflow-hidden rounded-card bg-ink-gradient p-6 md:p-8">
+        <p className="text-sm font-medium text-white/60">Resumen de tu escuela hoy</p>
+        <h1 className="mt-1 font-display text-2xl font-extrabold text-white md:text-3xl">
           Hola, {user?.fullName?.split(" ")[0] ?? "director"}
         </h1>
-        <p className="text-sm text-ink-soft">Resumen de tu escuela hoy</p>
-      </header>
-
-      {/* KPIs */}
-      <div className="grid grid-cols-3 gap-4">
-        {kpis.map((k) => (
-          <Card key={k.label}>
-            <p className="font-display text-3xl font-extrabold text-indigo">{k.value}</p>
-            <p className="mt-1 text-sm text-ink-soft">{k.label}</p>
-          </Card>
-        ))}
-      </div>
+        <div className="mt-6 flex gap-8">
+          {kpis.map((k, i) => (
+            <div key={k.label} className={i > 0 ? "border-l border-white/15 pl-8" : ""}>
+              <p className="tabular font-display text-3xl font-extrabold text-white">{k.value}</p>
+              <p className="mt-0.5 text-xs text-white/60">{k.label}</p>
+            </div>
+          ))}
+        </div>
+      </section>
 
       {/* Grupos */}
       <section id="grupos" className="mt-8">

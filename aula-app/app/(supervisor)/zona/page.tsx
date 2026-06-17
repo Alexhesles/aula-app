@@ -17,21 +17,29 @@ export default async function ZonaPage() {
   );
 
   return (
-    <main>
-      <header className="mb-6">
-        <h1 className="font-display text-2xl font-extrabold text-ink">
+    <main className="animate-rise">
+      <section className="glow-hero relative overflow-hidden rounded-card bg-ink-gradient p-6 md:p-8">
+        <p className="text-sm font-medium text-white/60">Resumen de tu zona escolar</p>
+        <h1 className="mt-1 font-display text-2xl font-extrabold text-white md:text-3xl">
           Hola, {user?.fullName?.split(" ")[0] ?? "supervisor"}
         </h1>
-        <p className="text-sm text-ink-soft">Resumen de tu zona escolar</p>
-      </header>
+        <div className="mt-6 flex gap-8">
+          <div>
+            <p className="tabular font-display text-3xl font-extrabold text-white">{schools.length}</p>
+            <p className="mt-0.5 text-xs text-white/60">Escuelas</p>
+          </div>
+          <div className="border-l border-white/15 pl-8">
+            <p className="tabular font-display text-3xl font-extrabold text-white">{totals.students}</p>
+            <p className="mt-0.5 text-xs text-white/60">Alumnos</p>
+          </div>
+          <div className="border-l border-white/15 pl-8">
+            <p className="tabular font-display text-3xl font-extrabold text-white">{totals.incidents}</p>
+            <p className="mt-0.5 text-xs text-white/60">Incidentes (7 días)</p>
+          </div>
+        </div>
+      </section>
 
-      <div className="mb-8 grid grid-cols-3 gap-4">
-        <Card><p className="font-display text-3xl font-extrabold text-indigo">{schools.length}</p><p className="mt-1 text-sm text-ink-soft">Escuelas</p></Card>
-        <Card><p className="font-display text-3xl font-extrabold text-indigo">{totals.students}</p><p className="mt-1 text-sm text-ink-soft">Alumnos</p></Card>
-        <Card><p className="font-display text-3xl font-extrabold text-red">{totals.incidents}</p><p className="mt-1 text-sm text-ink-soft">Incidentes (7 días)</p></Card>
-      </div>
-
-      <h2 className="mb-3 font-display text-lg font-bold text-ink">Escuelas</h2>
+      <h2 className="mb-3 mt-8 font-display text-lg font-bold text-ink">Escuelas</h2>
       {schools.length === 0 ? (
         <Card>
           <p className="text-sm text-ink-soft">
