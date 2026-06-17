@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils/cn";
+import { NotificationBell } from "@/components/shared/notification-bell";
 
 export interface NavItem {
   href: string;
@@ -43,11 +44,12 @@ function Icon({ name, className }: { name: string; className?: string }) {
 interface AppShellProps {
   user: { name: string; roleLabel: string; initial: string };
   nav: NavItem[];
+  unread: number;
   signOut: () => void;
   children: React.ReactNode;
 }
 
-export function AppShell({ user, nav, signOut, children }: AppShellProps) {
+export function AppShell({ user, nav, unread, signOut, children }: AppShellProps) {
   const pathname = usePathname();
   const isActive = (href: string) => pathname === href || pathname.startsWith(href + "/");
   const mobileNav = nav.filter((n) => n.mobile);
@@ -56,10 +58,13 @@ export function AppShell({ user, nav, signOut, children }: AppShellProps) {
     <div className="min-h-dvh bg-bg md:flex">
       {/* ===== Sidebar (desktop) ===== */}
       <aside className="sticky top-0 hidden h-dvh w-64 shrink-0 flex-col border-r border-border bg-surface px-4 py-6 md:flex">
-        <Link href="/inicio" className="flex items-center gap-2 px-2">
-          <span className="flex h-9 w-9 items-center justify-center rounded-[10px] bg-brand-gradient font-display text-base font-extrabold text-white">A</span>
-          <span className="font-display text-lg font-extrabold text-ink">Aula</span>
-        </Link>
+        <div className="flex items-center justify-between px-2">
+          <Link href="/inicio" className="flex items-center gap-2">
+            <span className="flex h-9 w-9 items-center justify-center rounded-[10px] bg-brand-gradient font-display text-base font-extrabold text-white">A</span>
+            <span className="font-display text-lg font-extrabold text-ink">Aula</span>
+          </Link>
+          <NotificationBell count={unread} />
+        </div>
 
         <nav className="mt-8 flex flex-col gap-1">
           {nav.map((n) => {
@@ -103,9 +108,12 @@ export function AppShell({ user, nav, signOut, children }: AppShellProps) {
         {/* Header móvil con gradiente */}
         <header className="sticky top-0 z-30 flex items-center justify-between bg-brand-gradient px-5 py-3 md:hidden">
           <Link href="/inicio" className="font-display text-lg font-extrabold text-white">Aula</Link>
-          <Link href="/perfil" className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20 font-display text-sm font-bold text-white">
-            {user.initial}
-          </Link>
+          <div className="flex items-center gap-1">
+            <NotificationBell count={unread} dark />
+            <Link href="/perfil" className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20 font-display text-sm font-bold text-white">
+              {user.initial}
+            </Link>
+          </div>
         </header>
 
         <main className="mx-auto w-full max-w-5xl flex-1 pb-24 md:pb-12">{children}</main>

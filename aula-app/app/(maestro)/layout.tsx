@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth/get-user";
 import { signOut } from "@/lib/auth/actions";
 import { AppShell, type NavItem } from "@/components/shared/app-shell";
+import { getUnreadCount } from "@/lib/data/notifications";
 
 const NAV: NavItem[] = [
   { href: "/inicio", label: "Inicio", icon: "home", mobile: true },
@@ -22,11 +23,13 @@ export default async function MaestroLayout({ children }: { children: React.Reac
 
   const name = user.fullName ?? "Maestro";
   const initial = (name.trim()[0] ?? "A").toUpperCase();
+  const unread = await getUnreadCount();
 
   return (
     <AppShell
       user={{ name, roleLabel: ROLE_LABEL[user.role ?? ""] ?? "Maestro", initial }}
       nav={NAV}
+      unread={unread}
       signOut={signOut}
     >
       {children}

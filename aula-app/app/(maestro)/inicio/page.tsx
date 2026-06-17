@@ -131,7 +131,7 @@ export default async function InicioPage() {
             { href: "/bitacora/nueva", label: "Nueva entrada", sub: "Bitácora", tone: "bg-coral-soft text-coral" },
             { href: "/plan", label: "Plan SEP", sub: "Avance", tone: "bg-indigo-soft text-indigo-dark" },
             { href: "/curriculo", label: "Currículo", sub: "Contenidos", tone: "bg-green-soft text-green" },
-            { href: "/asistencia", label: "Asistencia", sub: "Hoy", tone: "bg-sky-soft text-sky" },
+            { href: "/calendario", label: "Calendario", sub: "SEP", tone: "bg-sky-soft text-sky" },
           ].map((q) => (
             <Link key={q.href} href={q.href}>
               <Card hover className="h-full p-4">

@@ -1,4 +1,6 @@
 "use client";
+import Link from "next/link";
+import { AlertDirector } from "@/components/shared/alert-director";
 
 import { useState, useTransition } from "react";
 import { cn } from "@/lib/utils/cn";
@@ -72,6 +74,11 @@ export function AttendanceClient({
       <header className="px-5 pt-8">
         <h1 className="font-display text-2xl font-extrabold text-ink">{groupName}</h1>
         <p className="text-sm capitalize text-ink-soft">{prettyDate}</p>
+
+        <div className="mt-3 flex flex-wrap items-center gap-2">
+          <Link href={`/asistencia/${groupId}/historial`} className="inline-flex h-9 items-center rounded-btn border border-border px-3 text-sm font-medium text-ink-soft transition-colors hover:border-indigo-mid hover:text-indigo">Ver historial</Link>
+          <AlertDirector groupId={groupId} />
+        </div>
 
         <div className="mt-4 flex gap-2">
           <span className="rounded-pill bg-green-soft px-3 py-1 text-sm font-semibold text-green">
